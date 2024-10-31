@@ -1,0 +1,85 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  body {
+    background-color: #f0f8ff; /* Light blue background */
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+
+  .container {
+    max-width: 500px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: #333;
+  }
+
+  .container h2 {
+    text-align: center;
+    color: #008080; /* Teal */
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    font-size: 1rem;
+    color: #555;
+  }
+
+  .form-control {
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #96CEB4;
+  }
+
+  .form-control:focus {
+    border-color: #20b2aa; /* Light Sea Green */
+    box-shadow: 0 0 8px rgba(32, 178, 170, 0.2);
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #20b2aa; /* Light Sea Green */
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #1e9b92; /* Slightly darker teal */
+  }
+
+  .invalid-feedback {
+    color: #e53935;
+    font-size: 0.9rem;
+  }
+</style>
+
+<div class="container">
+  <h2>Login</h2>
+  <form action="/login" method="POST" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input placeholder="Username" name="username" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input placeholder="Password" name="password" type="password" class="form-control" required />
+      <div class="invalid-feedback">Invalid password!</div>
+    </div>
+
+    <button class="btn">Login</button>
+  </form>
+</div>

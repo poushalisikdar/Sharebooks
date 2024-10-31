@@ -1,0 +1,66 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+  body {
+    background-color: #e8f5fc; /* Soft pale blue */
+  }
+  .card {
+    border-radius: 15px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    transition: transform 0.2s;
+    background-color: #e8f5fc; /* Soft pale blue */
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+</style>
+<body>
+  
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-4 row-cols-sm-1">
+    <a href="/sharebook/stream/<%= books[0].stream%>" class="a-list">
+      <div class="card listing-card" style="width: 20rem">
+        <h1>Science</h1>
+        <img
+          src="<%=books[0].image%>"
+          class="card-img-top"
+          style="height: 20rem"
+          alt="listing"
+        />
+        <div class="card-img-overlay"></div>
+        <div class="card-body"></div>
+      </div>
+    </a>
+
+    <a href="/sharebook/stream/<%= books[1].stream%>" class="a-list">
+      <div class="card listing-card" style="width: 20rem">
+        <h1>Commerce</h1>
+        <img
+          src="<%=books[1].image%>"
+          class="card-img-top"
+          style="height: 20rem"
+          alt="listing"
+        />
+        <div class="card-img-overlay"></div>
+        <div class="card-body"></div>
+      </div>
+    </a>
+
+    <!-- </div>
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-4 row-cols-sm-1"> -->
+
+    <a href="/sharebook/stream/<%= books[2].stream%>" class="a-list">
+      <div class="card listing-card" style="width: 20rem">
+        <h1>Arts</h1>
+        <img
+          src="<%=books[2].image%>"
+          class="card-img-top"
+          style="height: 20rem"
+          alt="listing"
+        />
+        <div class="card-img-overlay"></div>
+        <div class="card-body"></div>
+      </div>
+    </a>
+  </div>
+</body>

@@ -1,0 +1,118 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  body {
+    background-color: #f0f8ff; /* Light blue background */
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    max-width: 500px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: #ffffff; /* White background for form */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  h2.signup {
+    text-align: center;
+    color: #008080; /* Teal */
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    color: #333; /* Darker text for better readability */
+  }
+
+  .form-control {
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: #20b2aa; /* Light Sea Green */
+    box-shadow: 0 0 8px rgba(32, 178, 170, 0.2);
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #20b2aa; /* Light Sea Green */
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #1e9b92; /* Slightly darker teal */
+  }
+
+  .valid-feedback {
+    display: none; /* Initially hidden */
+  }
+
+  .form-control:valid ~ .valid-feedback {
+    display: block; /* Show feedback when input is valid */
+    color: #4caf50; /* Green color for success */
+  }
+
+  .invalid-feedback {
+    color: #e53935; /* Red for error messages */
+  }
+</style>
+
+<div class="container">
+  <h2 class="signup">Sign Up</h2>
+  <div class="row mt-3">
+    <div class="col-12">
+      <form action="/signup" method="POST" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            placeholder="Username"
+            name="username"
+            type="text"
+            class="form-control"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            placeholder="Email"
+            name="email"
+            type="email"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            placeholder="Password"
+            name="password"
+            type="password"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Enter a strong password!</div>
+        </div>
+
+        <button class="btn btn-success mb-5">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

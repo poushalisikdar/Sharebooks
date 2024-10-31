@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShareBooks</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM2KxERiC3h1p/7h25gVoKjYy63Zhx4obRiyQU"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background-color: #f9f9f9; /* Light background color */
+      }
+
+      nav {
+        background: linear-gradient(45deg, #7fd1b9, #b5e0d2);
+        padding: 15px 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+      }
+
+      .navimg {
+        height: 80px;
+        width: auto; /* Maintain aspect ratio */
+        margin-right: 20px; /* Spacing between logo and links */
+      }
+
+      .navbar-nav {
+        align-items: center; /* Center items vertically */
+      }
+
+      .nav-link {
+        color: #333; /* Darker text color for links */
+        transition: color 0.3s, background-color 0.3s; /* Smooth transitions */
+      }
+
+      .nav-link:hover {
+        color: #444; /* Darker color on hover */
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.2
+        ); /* Light background on hover */
+        border-radius: 4px; /* Rounded corners for hover effect */
+      }
+
+      .fa-solid {
+        margin-right: 0.5rem; /* Space between icon and text */
+      }
+
+      .dropdown-menu {
+        background-color: #ffffff; /* Background color for dropdown */
+      }
+
+      .dropdown-item:hover {
+        background-color: #e2f7e2; /* Highlight color for dropdown items */
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .navimg {
+          height: 60px; /* Smaller logo on mobile */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-md bg-body-tertiary mb-5 sticky-top">
+      <div class="container-fluid">
+        <!-- <img src="media/logo.png" class="navimg" alt="Logo"> -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="/sharebook/home"
+                ><i class="fa-solid fa-book-open-reader"></i>Home</a
+              >
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Choose your section
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/sharebook/science">Science</a></li>
+                <li><a class="dropdown-item" href="/sharebook/arts">Arts</a></li>
+                <li><a class="dropdown-item" href="/sharebook/commerce">Commerce</a></li>
+                <li><a class="dropdown-item" href="/sharebook/others">Others</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sharebook/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sharebook/add">Add Book</a>
+            </li>
+          </ul>
+
+          <form class="d-flex" role="search" method="get" action="/sharebook/address">
+            <input
+              class="form-control me-2"
+              type="search"
+              name="address"
+              placeholder="Book Search by City Name"
+              aria-label="Search"
+            />
+            <button class="btn btn-success" type="submit">Search</button>
+          </form>
+
+          <div class="navbar-nav">
+            <% if(!currUser) { %>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/signup">
+                <!-- Sign Up Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  style="margin-right: 8px"
+                >
+                  <path
+                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22c-5.522 0-10-4.478-10-10S6.478 2 12 2s10 4.478 10 10-4.478 10-10 10zm1-14h-2v6h2v-6zm0 8h-2v2h2v-2z"
+                  />
+                </svg>
+                Sign Up
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">
+                <!-- Log In Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  style="margin-right: 8px"
+                >
+                  <path
+                    d="M15 3v4h-4v2h4v4l5-5-5-5zm-9 0h4v2H6v10h4v2H6c-1.11 0-2-.89-2-2V5c0-1.11.89-2 2-2z"
+                  />
+                </svg>
+                Log In
+              </a>
+            </li>
+
+            <% } %> <% if(currUser) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">
+                <!-- Log Out Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  style="margin-right: 8px"
+                >
+                  <path
+                    d="M16 13v-2H7V8l-5 4 5 4v-3h9zm4-10H6c-1.1 0-2 .9-2 2v3h2V5h14v14H6v-3H4v3c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+                Log Out
+              </a>
+            </li>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz4fnFO9gybQmI4e8y/sZl1H7hxH0h9xLxWqU5k7e88AXz1V1zOVrS5Q0U"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+      integrity="sha384-zZ7Ol/JR4c7LAG6OeWKgmkcEZF7E1o6SPQvn5V3jT3fS9YET/JWEm4K8uE93h9aR"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
