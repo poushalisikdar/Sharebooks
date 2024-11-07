@@ -32,7 +32,7 @@ const mongoUrl = process.env.ATLASDB_URL;
 const store = MongoStore.create({
   mongoUrl: mongoUrl,
   crypto: { secret: process.env.SECRET,
-    
+
    },
   touchAfter: 24 * 3600,
 });
@@ -128,9 +128,16 @@ app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
 });
 
-app.all("*", (req, res, next) => {
-  next(new ExpressError(404, "Something went wrong, please check it out!"));
+app.all("*", (req, res) => {
+  res.redirect("/");
 });
+
+
+
+// app.all("*", (req, res, next) => {
+
+//   next(new ExpressError(404, "Something went wrong, please check it out!"));
+// });
 
 app.use((err, req, res, next) => {
   let { status = 500, message = "Something went wrong, please check it out!" } = err;
