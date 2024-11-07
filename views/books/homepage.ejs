@@ -3,63 +3,84 @@
   body {
     background-color: #e8f5fc; /* Soft pale blue */
   }
+
+  /* Flex container for centering the cards horizontally */
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
   .card {
     border-radius: 15px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     transition: transform 0.2s;
-    background-color: #e8f5fc; /* Soft pale blue */
+    background-color: #ffffff; /* White background for card */
+    padding: 20px;
+    text-align: center;
+    width: 20rem;
+    height: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   .card:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   }
-</style>
-<body>
+
+  /* Different background colors for each stream */
+  .science-card {
+    background-color: #d1f0ff; /* Light blue for Science */
+  }
+
+  .commerce-card {
+    background-color: #fff0d1; /* Light peach for Commerce */
+  }
+
+  .arts-card {
+    background-color: #f3d1ff; /* Light purple for Arts */
+  }
+
+  /* Styling for text in cards */
+  .card h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
   
-  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-4 row-cols-sm-1">
-    <a href="/sharebook/stream/<%= books[0].stream%>" class="a-list">
-      <div class="card listing-card" style="width: 20rem">
+  .card p {
+    font-size: 1rem;
+    color: #666;
+  }
+</style>
+
+<body>
+  <div class="cards-container">
+    <!-- Science Card -->
+    <a href="/sharebook/stream/science" class="a-list">
+      <div class="card science-card listing-card">
         <h1>Science</h1>
-        <img
-          src="<%=books[0].image%>"
-          class="card-img-top"
-          style="height: 20rem"
-          alt="listing"
-        />
-        <div class="card-img-overlay"></div>
-        <div class="card-body"></div>
+        <p>Explore books and resources for science enthusiasts.</p>
       </div>
     </a>
 
-    <a href="/sharebook/stream/<%= books[1].stream%>" class="a-list">
-      <div class="card listing-card" style="width: 20rem">
+    <!-- Commerce Card -->
+    <a href="/sharebook/stream/commerce" class="a-list">
+      <div class="card commerce-card listing-card">
         <h1>Commerce</h1>
-        <img
-          src="<%=books[1].image%>"
-          class="card-img-top"
-          style="height: 20rem"
-          alt="listing"
-        />
-        <div class="card-img-overlay"></div>
-        <div class="card-body"></div>
+        <p>Discover materials for commerce studies.</p>
       </div>
     </a>
 
-    <!-- </div>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-4 row-cols-sm-1"> -->
-
-    <a href="/sharebook/stream/<%= books[2].stream%>" class="a-list">
-      <div class="card listing-card" style="width: 20rem">
+    <!-- Arts Card -->
+    <a href="/sharebook/stream/arts" class="a-list">
+      <div class="card arts-card listing-card">
         <h1>Arts</h1>
-        <img
-          src="<%=books[2].image%>"
-          class="card-img-top"
-          style="height: 20rem"
-          alt="listing"
-        />
-        <div class="card-img-overlay"></div>
-        <div class="card-body"></div>
+        <p>Find resources and books for arts students.</p>
       </div>
     </a>
   </div>

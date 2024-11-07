@@ -11,15 +11,7 @@ const HomeSchema = new Schema(
       required: true,
     },
 
-    image: {
-      type: String,
-      default:
-        "https://unsplash.com/photos/pile-of-assorted-title-books-xY55bL5mZAM",
-      set: (v) =>
-        v === ""
-          ? "https://unsplash.com/photos/pile-of-assorted-title-books-xY55bL5mZAM"
-          : v,
-    },
+    
   }
 );
 
