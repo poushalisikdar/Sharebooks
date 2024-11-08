@@ -130,9 +130,17 @@ async function main() {
 main();
 
 //Default route to redirect to the homepage
-app.get("/", (req, res) => {
-  res.redirect("books/homepage.ejs");
-});
+// app.get("/", (req, res) => {
+//   res.redirect("books/homepage.ejs");
+// });
+
+app.get(
+  "/",
+  wrapasync(async (req, res) => {
+    const books = await Homemodel.find({});
+    res.render("books/homepage", { books });
+  })
+);
 
 // 404 Error handling for undefined routes
 app.all("*", (req, res, next) => {
