@@ -82,8 +82,8 @@ const userRoutes = require("./routes/user.js");
 const Homepagemodel = require('./model/homeModel.js');
 
 // Route handlers
-app.use("/sharebook/books", sharebookRoutes); // for book-related routes
-app.use("/sharebook/nav", navoptionRoutes); // for navigation-related routes
+app.use("/sharebook", sharebookRoutes); // for book-related routes
+app.use("/sharebook", navoptionRoutes); // for navigation-related routes
 app.use("/", userRoutes); // for user-related routes
 
 // Utility function
