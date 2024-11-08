@@ -79,6 +79,7 @@ app.use((req, res, next) => {
 const sharebookRoutes = require("./routes/sharebook.js");
 const navoptionRoutes = require("./routes/navoption.js");
 const userRoutes = require("./routes/user.js");
+const Homepagemodel = require('./model/homeModel.js');
 
 // Route handlers
 app.use("/sharebook/books", sharebookRoutes); // for book-related routes
@@ -137,7 +138,7 @@ main();
 app.get(
   "/",
   wrapasync(async (req, res) => {
-    const books = await Homemodel.find({});
+    const books = await Homepagemodel.find({});
     res.render("books/homepage", { books });
   })
 );
