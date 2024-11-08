@@ -1,66 +1,57 @@
-if (process.env.NODE_ENV != "production") {
+if (process.env.NODE_ENV !== "production") {
   require('dotenv').config();
 }
 
-const MongoStore = require('connect-mongo');
-const Bookmodel = require("./model/books.js");
 const express = require("express");
-const mongoose = require("mongoose");
-const app = express();
-
 const path = require("path");
-const ejsmate = require("ejs-mate");
 const methodOverride = require("method-override");
-
-const ExpressError = require("./utils/ExpressError.js");
-const wrapasync = require("./utils/wrapasync.js");
-const expressSession = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
-const Localstrategy = require("passport-local");
-const User = require("./model/user.js");
+const LocalStrategy = require("passport-local");
+const session = require("express-session");
 
+// Custom imports
+const MongoStore = require("connect-mongo");
+const User = require("./model/user.js");
+const ExpressError = require("./utils/ExpressError.js");
+const wrapasync = require("./utils/wrapasync.js");
+
+// Route imports
+const sharebookRoutes = require("./routes/sharebook.js");
+const navoptionRoutes = require("./routes/navoption.js");
+const userRoutes = require("./routes/user.js");
+
+// Configuration imports
+const { connectDB } = require("./config/database.js");
+const sessionConfig = require("./config/session.js");
+
+// Initialize express app
+const app = express();
+
+// Set view engine and views path
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
+// Middleware
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.engine("ejs", ejsmate);
 
-const mongoUrl = process.env.ATLASDB_URL;
+// Connect to MongoDB
+connectDB();
 
-const store = MongoStore.create({
-  mongoUrl: mongoUrl,
-  crypto: { secret: "mysupersecretcode" },
-  touchAfter: 24 * 3600,
-});
-
-store.on("error", (err) => {
-  console.log("ERROR in MONGO SESSION STORE", err);
-});
-
-const sessionOption = {
-  store,
-  secret: process.env.SECRET || "fallbackSecret",
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true,
-  },
-};
-
-app.use(expressSession(sessionOption));
+// Session and flash middleware
+app.use(session(sessionConfig));
 app.use(flash());
 
+// Passport configuration
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new Localstrategy(User.authenticate()));
-
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Set local variables for flash messages and current user
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
@@ -69,68 +60,30 @@ app.use((req, res, next) => {
 });
 
 // Routes
-const sharebook = require("./routes/sharebook.js");
-app.use("/sharebook", sharebook);
+app.use("/sharebook/books", sharebookRoutes);
+app.use("/sharebook/nav", navoptionRoutes);
+app.use("/", userRoutes);
 
-const navoption = require("./routes/navoption.js");
-app.use("/sharebook", navoption);
-
-const user = require("./routes/user.js");
-app.use("/", user);
-
-function capitalizeFirstLetter(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-}
-
-app.get("/sharebook/address", wrapasync(async (req, res) => {
-  let data = req.query;
-  const city = capitalizeFirstLetter(data.address);
-
-  const booksdata = await Bookmodel.find({ city: city });
-
-  if (booksdata.length === 0) {
-    req.flash("error", "Oops! It seems we don't have books at the moment. Please check another one! Thank you!");
-    res.redirect("/sharebook/home");
-  } else {
-    res.render("subjectsection/address.ejs", { book: booksdata });
-  }
+// Default route
+app.get("/", wrapasync(async (req, res) => {
+  const Homepagemodel = require('./model/homeModel.js');
+  const books = await Homepagemodel.find({});
+  res.render("books/homepage", { books });
 }));
 
-app.get("/sharebook/:stream", wrapasync(async (req, res) => {
-  const stream = req.params.stream;
-  const data = await Bookmodel.find({ stream: stream });
+// Error handling for undefined routes
+app.all("*", (req, res, next) => {
+  next(new ExpressError(404, "Page not found!"));
+});
 
-  if (!data || data.length === 0) {
-    return res.status(404).send("Page not found");
-  }
+// Error handler
+app.use((err, req, res, next) => {
+  const { status = 500, message = "Something went wrong, please check it out!" } = err;
+  res.status(status).render("subjectsection/error.ejs", { message });
+});
 
-  res.render("subjectsection/subsection", {
-    books: data,
-    stream: stream,
-  });
-}));
-
-async function main() {
-  try {
-    await mongoose.connect(mongoUrl);
-    console.log("Connected to DB");
-  } catch (err) {
-    console.log("Database connection error:", err);
-  }
-}
-
-main();
-
+// Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
-});
-
-app.all("*", (req, res, next) => {
-  next(new ExpressError(404, "Something went wrong, please check it out!"));
-});
-
-app.use((err, req, res, next) => {
-  let { status = 500, message = "Something went wrong, please check it out!" } = err;
-  res.status(status).render("subjectsection/error.ejs", { message });
 });
