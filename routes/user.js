@@ -24,7 +24,7 @@ router.post(
           "success",
           "Welcome! Share your books, support students in need, and make a difference!"
         );
-        res.redirect("/sharebook/home");
+        res.redirect("/");
   
     })
      
@@ -50,7 +50,7 @@ router.post(
   }),
   (req, res) => {
     req.flash("success", "Welcome back to sharebook!");
-    let redirecturl = res.locals.pathurl || "/sharebook/home"
+    let redirecturl = res.locals.pathurl || "/"
     res.redirect(redirecturl);
   }
 );
@@ -62,7 +62,7 @@ router.get("/logout",(req,res,next)=>{
           return next(err);
       }
       req.flash("success","you are logged out!");
-      res.redirect("/sharebook/home");
+      res.redirect("/");
 
   })
 })
