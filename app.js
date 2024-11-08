@@ -112,19 +112,19 @@ app.get("/sharebook/address", wrapasync(async (req, res) => {
   res.render("subjectsection/address.ejs", { book: booksdata });
 }));
 
-// app.get("/sharebook/:stream", wrapasync(async (req, res) => {
-//   const stream = req.params.stream;
-//   const data = await Bookmodel.find({ stream: stream });
+app.get("/sharebook/:stream", wrapasync(async (req, res) => {
+  const stream = req.params.stream;
+  const data = await Bookmodel.find({ stream: stream });
 
-//   if (!data || data.length === 0) {
-//     return res.status(404).send("Page not found");
-//   }
+  if (!data || data.length === 0) {
+    return res.status(404).send("Page not found");
+  }
 
-//   res.render("subjectsection/subsection", {
-//     books: data,
-//     stream: stream,
-//   });
-// }));
+  res.render("subjectsection/subsection", {
+    books: data,
+    stream: stream,
+  });
+}));
 
 // Connect to MongoDB
 async function main() {
