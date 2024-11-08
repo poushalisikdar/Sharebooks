@@ -21,7 +21,7 @@ const validateBooks = (req, res, next) => {
 };
 
 router.get(
-  "/",
+  "/home",
   Wrapasync(async (req, res) => {
     const books = await Homemodel.find({});
     res.render("books/homepage", { books });
