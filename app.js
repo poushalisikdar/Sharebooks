@@ -90,6 +90,13 @@ app.use("/", userRoutes); // for user-related routes
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+app.get(
+  "/",
+  wrapasync(async (req, res) => {
+    const books = await Homepagemodel.find({});
+    res.render("books/homepage", { books });
+  })
+);
 
 // Specific routes
 app.get("/sharebook/address", wrapasync(async (req, res) => {
@@ -99,24 +106,25 @@ app.get("/sharebook/address", wrapasync(async (req, res) => {
 
   if (booksdata.length === 0) {
     req.flash("error", "Oops! It seems we don't have books at the moment. Please check another one! Thank you!");
-    return res.redirect("/sharebook/home");
+    return res.redirect("/");
+    // return res.redirect("/sharebook/home");
   } 
   res.render("subjectsection/address.ejs", { book: booksdata });
 }));
 
-app.get("/sharebook/:stream", wrapasync(async (req, res) => {
-  const stream = req.params.stream;
-  const data = await Bookmodel.find({ stream: stream });
+// app.get("/sharebook/:stream", wrapasync(async (req, res) => {
+//   const stream = req.params.stream;
+//   const data = await Bookmodel.find({ stream: stream });
 
-  if (!data || data.length === 0) {
-    return res.status(404).send("Page not found");
-  }
+//   if (!data || data.length === 0) {
+//     return res.status(404).send("Page not found");
+//   }
 
-  res.render("subjectsection/subsection", {
-    books: data,
-    stream: stream,
-  });
-}));
+//   res.render("subjectsection/subsection", {
+//     books: data,
+//     stream: stream,
+//   });
+// }));
 
 // Connect to MongoDB
 async function main() {
@@ -135,13 +143,13 @@ main();
 //   res.redirect("books/homepage.ejs");
 // });
 
-app.get(
-  "/",
-  wrapasync(async (req, res) => {
-    const books = await Homepagemodel.find({});
-    res.render("books/homepage", { books });
-  })
-);
+// app.get(
+//   "/",
+//   wrapasync(async (req, res) => {
+//     const books = await Homepagemodel.find({});
+//     res.render("books/homepage", { books });
+//   })
+// );
 
 // 404 Error handling for undefined routes
 app.all("*", (req, res, next) => {
